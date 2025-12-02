@@ -34,11 +34,14 @@ def arithmetic_arranger(problems, answers = False):
     operand_two = 0
     operator = ''
     result = 0
+    
     # Verifies if there are more than 5 operations. 
     if len(problems) > 5:
         response = 'Error: Too many problems.'
     elif len(problems) <= 5:
         amount_problems = len(problems)
+        
+        # Iterates over each problem provided, seperately.
         while amount_problems > 0 :
             for problem in problems:
                 expression = problem.split()
@@ -49,17 +52,26 @@ def arithmetic_arranger(problems, answers = False):
                     result = operand_one + operand_two
                 elif operator == '-':
                     result = operand_one - operand_two
+                
+                # Verifies that operands are only digits
                 if type(operand_one) and type(operand_two) == int:
+                    
+                    # Verifies that each operand has 4 or less digits
                     if len(str(operand_one)) > 4 or len(str(operand_two)) > 4:
                         response = 'Error: Numbers cannot be more than four digits.'
                     else:
+                        
+                        # Verifies that the operator is either a summation or subtraction operator.
                         if operator == '+' or operator == '-':
+                            
+                            # Vertical formatter function that segments the current expression into vertical layers
                             def vertical_formatter(operand_one, operator, operand_two):
                                 top_layer = ''
                                 middle_layer = ''
                                 bottom_layer = ''
                                 reformatted_expression = ''
-
+                                
+                                # Operand formatter function that converts operands into a string with a maximum length of 4   
                                 def operand_formatter(operand):
                                     operand_spaces = 4 - len(str(operand))
                                     if operand_spaces == 0:
@@ -74,6 +86,8 @@ def arithmetic_arranger(problems, answers = False):
                                 reformatted_operand_one = operand_formatter(operand_one)
                                 reformatted_operand_two = operand_formatter(operand_two)
 
+                                # Conditional checkpoint that verifies whether an unformatted operand in the expression is a length of 4, 3, or 2 in order 
+                                # to format appropriately.     
                                 if len(str(operand_one)) == 4 or len(str(operand_two)) == 4:
                                     top_layer = f'\n  {reformatted_operand_one}'
                                     middle_layer = f'{reformatted_operand_two} {operator}\n------'
@@ -99,6 +113,8 @@ def arithmetic_arranger(problems, answers = False):
                                     else:
                                         reformatted_expression = f'{top_layer}\n{middle_layer}'
                                 return reformatted_expression
+                            
+                            #The result of the vertical formatter function will be appended to a string that will contain all reformatted expressions 
                             response += vertical_formatter(operand_one, operand_two, operator)+'    '
                             if amount_problems == 0:
                                 response += vertical_formatter(operand_one, operand_two, operator)
